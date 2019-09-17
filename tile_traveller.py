@@ -26,33 +26,71 @@
 # We start by defining a functon for the cells using if, elif for the 9 cells.
 # We then ask for input from the user the function returns the updated cell value and repeats until finish.
 
-x = 1
-y = 1
+cellvalue = 11
 direction = ''
 
 def cell(x,y):    
+    ''' This function defines each cell and it's properties '''
     if x == 1 and y == 1:
-        direction = 'n' 
+        direction = 'nN' 
+        print('You can travel: (N)orth.')
     elif x == 1 and y == 2:
-        direction = 'nse'
+        direction = 'nseNSE'
+        print('You can travel: (N)orth or (E)ast or (S)outh.')
     elif x == 1 and y == 3:
-        direction = 'es'
+        direction = 'esES'
+        print('You can travel: (E)ast or (S)outh.')
     elif x == 2 and y == 3:
-        direction = 'ew'
+        direction = 'ewEW'
+        print('You can travel: (E)ast or (W)est.')
     elif x == 3 and y == 3:
-        direction = 'ws'
+        direction = 'wsWS'
+        print('You can travel: (S)outh or (W)est.')
     elif x == 3 and y == 2:
-        direction = 'ns'
+        direction = 'nsNS'
+        print('You can travel: (N)orth or (S)outh.')
     elif x == 3 and y == 1:
-        direction = 'n'
+        direction = 'nN'
+        print('Victory!')
     elif x == 2 and y == 2:
-        direction = 'ws'
-    elif x = 2 and y == 1:
-        direction = 'n'
+        direction = 'wsWS'
+        print('You can travel: (W)est or (S)outh.')
+    elif x == 2 and y == 1:
+        direction = 'nN'
+        print('You can travel: (N)orth.')
+    return direction
 
-    
-    # Possible directions
-    direction_north = 'n'
-    
-    if direction = direction_north:
-        return cellvalue
+def is_valid(user_input,definition):
+    for ch in definition:
+        if ch == user_input:
+            result = True
+            break
+    else: 
+        print('Not a valid direction!')
+        result = False
+    return result
+
+def travel(cellvalue):
+    ''' Prints out current positon, gets user input and updates cell values '''
+    x = int(cellvalue/10)
+    y = cellvalue%10
+    possible_directions = cell(x,y)
+    legal_move = False
+    while legal_move == False:
+        dir = input('Direction: ')
+        legal_move = is_valid(dir,possible_directions)        
+    if dir == 'n' or dir =='N':
+        y += 1
+    elif dir == 's' or dir == 'S':
+        y -= 1
+    elif dir == 'e' or dir == 'E':
+        x += 1
+    elif dir == 'w' or dir == 'W':
+        x-= 1
+    cellvalue = int(str(x)+str(y))
+    return cellvalue
+
+while cellvalue != 31:
+    cellvalue = travel(cellvalue)
+else: 
+    print('Victory!')
