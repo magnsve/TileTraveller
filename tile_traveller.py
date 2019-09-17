@@ -26,11 +26,30 @@
 # We start by defining a functon for the cells using if, elif for the 9 cells.
 # We then ask for input from the user the function returns the updated cell value and repeats until finish.
 
+x = 1
+y = 1
+direction = ''
 
-def cell(x,y,direction):    
-    if x== 1 and y==1:
-        cellvalue = 11
-    elif:
+def cell(x,y):    
+    if x == 1 and y == 1:
+        direction = 'n' 
+    elif x == 1 and y == 2:
+        direction = 'nse'
+    elif x == 1 and y == 3:
+        direction = 'es'
+    elif x == 2 and y == 3:
+        direction = 'ew'
+    elif x == 3 and y == 3:
+        direction = 'ws'
+    elif x == 3 and y == 2:
+        direction = 'ns'
+    elif x == 3 and y == 1:
+        direction = 'n'
+    elif x == 2 and y == 2:
+        direction = 'ws'
+    elif x = 2 and y == 1:
+        direction = 'n'
+
     
     # Possible directions
     direction_north = 'n'
