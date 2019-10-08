@@ -6,6 +6,7 @@
 # We start by defining all cells and their properties.
 # Next we create a function that asks for user input and validates it.
 
+INIT = (1,1)
 NORTH = 'n'
 SOUTH = 's'
 WEST = 'w'
@@ -61,8 +62,7 @@ def travel(cellvalue, coins_before):
         print_directions(possible_directions)
         dir = input('Direction: ')
         dir = dir.lower()
-        legal_move = is_valid(dir,possible_directions) 
-        
+        legal_move = is_valid(dir,possible_directions)         
 
     if dir == NORTH:
         y += 1
@@ -91,11 +91,22 @@ def pull_lever(cellvalue, coins):
                     print('You received 1 coin, your total is now {}.'.format(coins))
 
     return coins
-# Now we can play the game. Start by setting start position to 1,1.
-cellvalue = (1,1)
-total_coins = 0
 
-while cellvalue != (3,1):
-    cellvalue, total_coins = travel(cellvalue, total_coins)
-else: 
-    print('Victory! Total coins {}.'.format(total_coins))
+def main(first_cell):
+    cellvalue = first_cell
+    total_coins = 0
+    while cellvalue != (3,1):
+        cellvalue, total_coins = travel(cellvalue, total_coins)
+    else: 
+        print('Victory! Total coins {}.'.format(total_coins))
+
+    play_again = input('Play again (y/n): ')
+    play_again = play_again.lower()    
+    
+    return play_again
+
+# Now we can play the game. Start by setting start position to 1,1.
+
+play_again = 'y'
+while play_again == 'y':
+    play_again = main(INIT)
