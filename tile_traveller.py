@@ -31,7 +31,7 @@ def print_directions(direction_string):
 
 def cell(coordinates):    
     ''' This function defines each cell and it's properties '''    
-    cells = [[(1,1),NORTH], [(1,2),NORTH+SOUTH+EAST], [(1,3),EAST+SOUTH], [(2,3),EAST+WEST], [(3,3),WEST+SOUTH], [(3,2),NORTH+SOUTH], [(3,1),NORTH], [(2,2),WEST+SOUTH], [(2,1),NORTH]]
+    cells = [[(1,1),NORTH], [(1,2),NORTH+EAST+SOUTH], [(1,3),EAST+SOUTH], [(2,3),EAST+WEST], [(3,3),SOUTH+WEST], [(3,2),NORTH+SOUTH], [(3,1),NORTH], [(2,2),SOUTH+WEST], [(2,1),NORTH]]
     for element in cells:
         element_coordinates = element[0]
         if element_coordinates == coordinates:
@@ -54,11 +54,11 @@ def travel(cellvalue, coins_before):
     ''' Prints out current positon, gets user input and updates cell values '''
     x, y = cellvalue
     possible_directions = cell(cellvalue)
-    coins_after = pull_lever(cellvalue, coins_before)
-    print_directions(possible_directions)
+    coins_after = pull_lever(cellvalue, coins_before)    
     legal_move = False
     
     while legal_move == False:        
+        print_directions(possible_directions)
         dir = input('Direction: ')
         dir = dir.lower()
         legal_move = is_valid(dir,possible_directions) 
@@ -84,7 +84,7 @@ def pull_lever(cellvalue, coins):
         if element_lever == cellvalue:
             lever = element[1]            
             if lever == True:
-                pull_lever = input('Pull a lever (y/n):')
+                pull_lever = input('Pull a lever (y/n): ')
                 pull_lever = pull_lever.lower()                
                 if pull_lever == 'y':
                     coins += 1
