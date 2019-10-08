@@ -40,7 +40,7 @@ def cell(coordinates):
 
 def is_valid(user_input,directions):
     '''Validation for user input'''
-
+    coin = 0
     for ch in directions:
         if ch == user_input:
             result = True
@@ -49,19 +49,21 @@ def is_valid(user_input,directions):
         print('Not a valid direction!')
         result = False
 
-    return result
+    return result, coin
 
-def travel(cellvalue):
+def travel(cellvalue, coins_before):
     ''' Prints out current positon, gets user input and updates cell values '''
     x, y = cellvalue
     possible_directions = cell(cellvalue)
     print_directions(possible_directions)
     legal_move = False
+    
 
     while legal_move == False:
         dir = input('Direction: ')
         dir = dir.lower()
         legal_move = is_valid(dir,possible_directions) 
+        coins_after = pull_lever(cellvalue, coins_before)
 
     if dir == 'n':
         y += 1
@@ -71,16 +73,32 @@ def travel(cellvalue):
         x += 1
     elif dir == 'w':
         x-= 1
-
+    
     cellvalue = (x,y)
+    
+    return cellvalue, coins_after
 
-    return cellvalue
+def pull_lever(cellvalue, coins):
+    cells = [[(1,1), False], [(1,2), True], [(1,3), False], [(2,3), True], [(3,3), False], [(3,2), True], [(3,1), False], [(2,2), True], [(2,1), False]]
+    for element in cells:
+        element_lever = element[0]
+        if element_lever == cellvalue:
+            lever = element[1]
+            print(lever)
+            if lever == True:
+                pull_lever = input('Pull a lever (y/n):')
+                pull_lever = pull_lever.lower()
+                #break
+                if pull_lever == 'y':
+                    coins += 1
+                    print('You received 1 coin, your total is now {}.'.format(coins))
 
-
+    return coins
 # Now we can play the game. Start by setting start position to 1,1.
 cellvalue = (1,1)
+total_coins = 0
 
 while cellvalue != (3,1):
-    cellvalue = travel(cellvalue)
+    cellvalue, total_coins = travel(cellvalue, total_coins)
 else: 
     print('Victory!')
