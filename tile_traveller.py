@@ -6,6 +6,7 @@
 # We start by defining all cells and their properties.
 # Next we create a function that asks for user input and validates it.
 
+import random
 INIT = (1,1)
 NORTH = 'n'
 SOUTH = 's'
@@ -51,7 +52,7 @@ def is_valid(user_input,directions):
 
     return result
 
-def travel(cellvalue, coins_before):
+def travel(cellvalue, coins_before, tracker):
     ''' Prints out current positon, gets user input and updates cell values '''
     x, y = cellvalue
     possible_directions = cell(cellvalue)
@@ -60,9 +61,12 @@ def travel(cellvalue, coins_before):
     
     while legal_move == False:        
         print_directions(possible_directions)
-        dir = input('Direction: ')
+        print('Direction: ',end = '')
+        dir = random.choice([NORTH,EAST,SOUTH,WEST])
+        print(dir)
         dir = dir.lower()
         legal_move = is_valid(dir,possible_directions)         
+        tracker += 1
 
     if dir == NORTH:
         y += 1
@@ -75,7 +79,7 @@ def travel(cellvalue, coins_before):
     
     cellvalue = (x,y)
     
-    return cellvalue, coins_after
+    return cellvalue, coins_after, tracker
 
 def pull_lever(cellvalue, coins):
     cells = [[(1,1), False], [(1,2), True], [(1,3), False], [(2,3), True], [(3,3), False], [(3,2), True], [(3,1), False], [(2,2), True], [(2,1), False]]
@@ -84,7 +88,9 @@ def pull_lever(cellvalue, coins):
         if element_lever == cellvalue:
             lever = element[1]            
             if lever == True:
-                pull_lever = input('Pull a lever (y/n): ')
+                print('Pull a lever (y/n): ', end='')
+                pull_lever = random.choice(['y','n'])
+                print(pull_lever)
                 pull_lever = pull_lever.lower()                
                 if pull_lever == 'y':
                     coins += 1
@@ -92,13 +98,15 @@ def pull_lever(cellvalue, coins):
 
     return coins
 
-def main(first_cell):
+def main(first_cell):    
+    random.seed(int(input('Input seed: ')))
     cellvalue = first_cell
     total_coins = 0
+    tracker = 0
     while cellvalue != (3,1):
-        cellvalue, total_coins = travel(cellvalue, total_coins)
+        cellvalue, total_coins, tracker = travel(cellvalue, total_coins, tracker)
     else: 
-        print('Victory! Total coins {}.'.format(total_coins))
+        print('Victory! Total coins {}. Moves {}.'.format(total_coins,tracker))
 
     play_again = input('Play again (y/n): ')
     play_again = play_again.lower()    
@@ -108,5 +116,6 @@ def main(first_cell):
 # Now we can play the game. Start by setting start position to 1,1.
 
 play_again = 'y'
+
 while play_again == 'y':
     play_again = main(INIT)
